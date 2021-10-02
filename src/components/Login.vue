@@ -36,7 +36,7 @@
       </v-card-actions>
     </v-card>
     <div>
-      <v-snackbar v-model="snackbar">
+      <v-snackbar v-model="snackbar" :timeout="snckbar_timeout">
         {{ text }}
         <template v-slot:action="{ attrs }">
           <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
@@ -47,6 +47,7 @@
       
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -64,6 +65,7 @@ export default {
       show: false,
       snackbar: false,
       text: "",
+      snckbar_timeout: 2000,
       rules: {
         required: (value) => !!value || "Required",
         min: (v) => v.length >= 8 || "Min 8 characters",
@@ -86,8 +88,8 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
-            this.text = `You have loged in sucssfully`;
-            this.snackbar = true;
+             this.snackbar = true;
+           this.text = `You have loged in sucssfully`;
             let key = response.data.key;
             axios
               .get(
